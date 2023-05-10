@@ -1,0 +1,17 @@
+23:42:16| Time for 300 frames using 1 processes: 111.9851861000061
+23:43:04| Time for 300 frames using 2 processes: 47.67058619996533
+23:43:38| Time for 300 frames using 3 processes: 34.453709499910474
+23:44:06| Time for 300 frames using 4 processes: 28.36486169998534
+23:44:31| Time for 300 frames using 5 processes: 24.71673269988969
+23:44:59| Time for 300 frames using 6 processes: 27.91724169999361
+23:45:23| Time for 300 frames using 7 processes: 24.237319799838588
+23:45:44| Time for 300 frames using 8 processes: 20.567457100143656
+23:46:04| Time for 300 frames using 9 processes: 19.57280999980867
+23:46:31| Time for 300 frames using 10 processes: 27.849565600045025
+23:46:55| Time for 300 frames using 11 processes: 23.74913079990074
+23:47:39| Time for 300 frames using 12 processes: 43.41934969997965
+23:48:32| Time for 300 frames using 13 processes: 53.50610669981688
+23:49:35| Time for 300 frames using 14 processes: 62.79042179998942
+23:50:34| Time for 300 frames using 15 processes: 58.713531699962914
+23:51:37| Time for 300 frames using 16 processes: 63.212184600066394
+23:51:37| Total Time for ALL processing: 672.7370985001326

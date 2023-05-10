@@ -2,7 +2,10 @@
 Course: CSE 251 
 Lesson Week: 01
 File: assignment.py 
-Author: <Add name here>
+Author: Christian Landaverde
+
+Category: 4 meets all requirements.
+Justification: All the requirements were met using threads. Global variables were avoid
 
 Purpose: Drawing with Python Turtle
 
@@ -34,92 +37,145 @@ from cse251 import *
 
 # No global variables.
 
-def draw_square(tur, x, y, side, color='black'):
-    """Draw Square"""
-    tur.move(x, y)
-    tur.setheading(0)
-    tur.color(color)
-    for _ in range(4):
-        tur.forward(side)
+def draw_square(tur, x, y, side, lock, color='black'):
+    if lock == '':
+        """Draw Square"""
+        tur.move(x, y)
+        tur.setheading(0)
+        tur.color(color)
+        for _ in range(4):
+            tur.forward(side)
+            tur.right(90)
+        return 
+    
+
+    with lock:
+        """Draw Square"""
+        tur.move(x, y)
+        tur.setheading(0)
+        tur.color(color)
+        for _ in range(4):
+            tur.forward(side)
+            tur.right(90)
+
+def draw_circle(tur, x, y, radius, lock, color='red'):
+    if lock == '':  
+        """Draw Circle"""
+        steps = 10
+        circumference = 2 * math.pi * radius
+
+        # Need to adjust starting position so that (x, y) is the center
+        x1 = x - (circumference // steps) // 2
+        y1 = y
+        tur.move(x1 , y1 + radius)
+
+        tur.setheading(0)
+        tur.color(color)
+        for _ in range(steps):
+            tur.forward(circumference / steps)
+            tur.right(360 / steps)
+        return
+    
+    with lock:
+        steps = 10
+        circumference = 2 * math.pi * radius
+
+        # Need to adjust starting position so that (x, y) is the center
+        x1 = x - (circumference // steps) // 2
+        y1 = y
+        tur.move(x1 , y1 + radius)
+
+        tur.setheading(0)
+        tur.color(color)
+        for _ in range(steps):
+            tur.forward(circumference / steps)
+            tur.right(360 / steps)
+
+def draw_rectangle(tur, x, y, width, height,lock, color='blue'):
+    """Draw a rectangle"""
+    if lock == "":
+        tur.move(x, y)
+        tur.setheading(0)
+        tur.color(color)
+        tur.forward(width)
+        tur.right(90)
+        tur.forward(height)
+        tur.right(90)
+        tur.forward(width)
+        tur.right(90)
+        tur.forward(height)
+        tur.right(90)
+        return
+    
+    with lock:
+        tur.move(x, y)
+        tur.setheading(0)
+        tur.color(color)
+        tur.forward(width)
+        tur.right(90)
+        tur.forward(height)
+        tur.right(90)
+        tur.forward(width)
+        tur.right(90)
+        tur.forward(height)
         tur.right(90)
 
 
-def draw_circle(tur, x, y, radius, color='red'):
-    """Draw Circle"""
-    steps = 10
-    circumference = 2 * math.pi * radius
 
-    # Need to adjust starting position so that (x, y) is the center
-    x1 = x - (circumference // steps) // 2
-    y1 = y
-    tur.move(x1 , y1 + radius)
-
-    tur.setheading(0)
-    tur.color(color)
-    for _ in range(steps):
-        tur.forward(circumference / steps)
-        tur.right(360 / steps)
-
-
-def draw_rectangle(tur, x, y, width, height, color='blue'):
-    """Draw a rectangle"""
-    tur.move(x, y)
-    tur.setheading(0)
-    tur.color(color)
-    tur.forward(width)
-    tur.right(90)
-    tur.forward(height)
-    tur.right(90)
-    tur.forward(width)
-    tur.right(90)
-    tur.forward(height)
-    tur.right(90)
-
-
-def draw_triangle(tur, x, y, side, color='green'):
+def draw_triangle(tur, x, y, side, lock, color='green'):
     """Draw a triangle"""
-    tur.move(x, y)
-    tur.setheading(0)
-    tur.color(color)
-    for _ in range(4):
-        tur.forward(side)
-        tur.left(120)
+    if lock == "":
+        tur.move(x, y)
+        tur.setheading(0)
+        tur.color(color)
+        for _ in range(4):
+            tur.forward(side)
+            tur.left(120)
+        return 
+    
+    with lock:
+        tur.move(x, y)
+        tur.setheading(0)
+        tur.color(color)
+        for _ in range(4):
+            tur.forward(side)
+            tur.left(120)
 
 
 def draw_coord_system(tur, x, y, size=300, color='black'):
-    """Draw corrdinate lines"""
+    """Draw coordinate lines""" #there was a typo here "corrdinate"
     tur.move(x, y)
     for i in range(4):
         tur.forward(size)
         tur.backward(size)
         tur.left(90)
 
-def draw_squares(tur):
+def draw_squares(tur, lock=""):
     """Draw a group of squares"""
     for x in range(-300, 350, 200):
         for y in range(-300, 350, 200):
-            draw_square(tur, x - 50, y + 50, 100)
+            draw_square(tur, x - 50, y + 50, 100, lock)
 
 
-def draw_circles(tur):
+def draw_circles(tur, lock=""):
     """Draw a group of circles"""
     for x in range(-300, 350, 200):
         for y in range(-300, 350, 200):
-            draw_circle(tur, x, y-2, 50)
+            draw_circle(tur, x, y-2, 50, lock)
 
 
-def draw_triangles(tur):
+def draw_triangles(tur, lock=""):
     """Draw a group of triangles"""
     for x in range(-300, 350, 200):
         for y in range(-300, 350, 200):
-            draw_triangle(tur, x-30, y-30+10, 60)
+            draw_triangle(tur, x-30, y-30+10, 60, lock)
 
 
-def draw_rectangles(tur):
+def draw_rectangles(tur, lock=""):
     """Draw a group of Rectangles"""
     for x in range(-300, 350, 200):
         for y in range(-300, 350, 200):
-            draw_rectangle(tur, x-10, y+5, 20, 15)
+            draw_rectangle(tur, x-10, y+5, 20, 15, lock)
 
 
 def run_no_threads(tur, log, main_turtle):
@@ -172,6 +228,24 @@ def run_with_threads(tur, log, main_turtle):
     # You need to use 4 threads where each thread concurrently drawing one type of shape.
     # You are free to change any functions in this code except main()
 
+    lock = threading.Lock()
+
+
+    # Create 4 threads
+    lock = threading.Lock()
+    t_squares = threading.Thread(target=draw_squares, args=(tur, lock))
+    t_circles = threading.Thread(target=draw_circles, args=(tur, lock))
+    t_triangles = threading.Thread(target=draw_triangles, args=(tur, lock))
+    t_rectangles = threading.Thread(target=draw_rectangles, args=(tur, lock))
+
+    t_figures = [t_squares, t_circles, t_triangles, t_rectangles]
+
+    # Start all threads
+    for thread in t_figures:
+        thread.start()
+
+    # ---------------------------------------------------------
+
     log.step_timer('All drawing commands have been created')
 
     log.write(f'Number of Drawing Commands: {tur.get_command_count()}')
@@ -180,6 +254,9 @@ def run_with_threads(tur, log, main_turtle):
     tur.play_commands(main_turtle)
     log.stop_timer('Total drawing time')
     tur.clear()
+
+    for thread in t_figures:
+        thread.join()
 
 
 def main():
