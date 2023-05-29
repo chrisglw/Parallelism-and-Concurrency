@@ -4,11 +4,6 @@ Lesson Week: 04
 File: assignment.py
 Author: Christian Landaverde
 
-Updated:
-4- Meet all the requirements
-I was able to break the loop if the queue is 0, so in that way the dealer does not try to pop from and empty queue.
-
-Previous comment:
 3- Slightly deficient
 I got the code working with the requirements, but I am still working on a solution to stop the dealer to get something once the queue is empty.
 Other than that, it is working. 
@@ -103,7 +98,7 @@ class Factory(threading.Thread):
             place the car on the queue
             signal the dealer that there is a car on the queue
            """
-            
+            # Wait for a slot to be available in the queue
             car = Car()
             self.fullQueue.acquire()
             self.queue.put(car)
@@ -134,10 +129,8 @@ class Dealer(threading.Thread):
             signal the factory that there is an empty slot in the queue
             """
             self.emptyQueue.acquire()
-            if self.queue.size() == 0:
-                break
-            queue_size = self.queue.size() 
             car = self.queue.get()
+            queue_size = self.queue.size()
             self.queue_stats[queue_size - 1] += 1
             self.fullQueue.release()
 

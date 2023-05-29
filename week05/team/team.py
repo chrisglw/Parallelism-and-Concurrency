@@ -42,8 +42,24 @@ def is_prime(n: int) -> bool:
     return True
 
 # TODO create read_thread function
+def read_thread(in_queue: mp.Queue, out_queue: mp.Queue, prime_count: int) -> None:
+    """Reads from the input queue and writes to the output queue.
+    """
+    while True:
+        # Wait for the input queue to be filled
+        while in_queue.empty():
+            time.sleep(0.01)
+            # Pop the next number from the input queue
+            # (this is a blocking call)
+            n = in_queue.get()
+            # Write the number to the output queue
+            out_queue.put(n)
+
+
 
 # TODO create prime_process function
+
+
 
 def create_data_txt(filename):
     # only create if is doesn't exist 
