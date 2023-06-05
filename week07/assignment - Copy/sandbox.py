@@ -1,3 +1,19 @@
+"""
+Course: CSE 251
+Lesson Week: 07
+File: assingnment.py
+Author: <Your name here>
+Purpose: Process Task Files
+
+Instructions:  See I-Learn
+
+TODO
+
+Add your comments here on the pool sizes that you used for your assignment and
+why they were the best choices.
+
+
+"""
 
 from datetime import datetime, timedelta
 import requests
@@ -17,11 +33,11 @@ TYPE_SUM    = 'sum'
 TYPE_NAME   = 'name'
 
 # Global lists to collect the task results
-result_primes = mp.Manager().list()
-result_words = mp.Manager().list()
-result_upper = mp.Manager().list()
-result_sums = mp.Manager().list()
-result_names = mp.Manager().list()
+result_primes = []
+result_words = []
+result_upper = []
+result_sums = []
+result_names = []
 
 def is_prime(n: int):
     """Primality test using 6k+-1 optimization.
@@ -38,7 +54,7 @@ def is_prime(n: int):
         i += 6
     return True
  
-def task_prime(value: int) -> str:
+def task_prime(value):
     """
     Use the is_prime() above
     Add the following to the global list:
@@ -46,10 +62,9 @@ def task_prime(value: int) -> str:
             - or -
         {value} is not prime
     """
-    return f"{value} is prime" if is_prime(value) else f"{value} is not prime"
-    # pass
+    pass
 
-def task_word(word: str) -> str:
+def task_word(word):
     """
     search in file 'words.txt'
     Add the following to the global list:
@@ -57,29 +72,23 @@ def task_word(word: str) -> str:
             - or -
         {word} not found *****
     """
-    with open('words.txt', 'r') as f:
-        words = f.read().splitlines()
-    return f"{word} Found" if word in words else f"{word} not found"
-    # pass
+    pass
 
-def task_upper(text: str) -> str:
+def task_upper(text):
     """
     Add the following to the global list:
         {text} ==>  uppercase version of {text}
     """
-    return f"{text} ==> {text.upper()}"
-    # pass
+    pass
 
-def task_sum(start_value: int, end_value: int) -> str:
+def task_sum(start_value, end_value):
     """
     Add the following to the global list:
         sum of {start_value:,} to {end_value:,} = {total:,}
     """
-    total = sum(range(start_value, end_value + 1))
-    return f"sum of {start_value:,} to {end_value:,} = {total:,}"
-    # pass
+    pass
 
-def task_name(url: str) -> str:
+def task_name(url):
     """
     use requests module
     Add the following to the global list:
@@ -87,13 +96,7 @@ def task_name(url: str) -> str:
             - or -
         {url} had an error receiving the information
     """
-    response = requests.get(url)
-    if response.status_code == 200:
-        name = response.json().get('name')
-        if name is not None:
-            return f"{url} has name {name}"
-    return f"{url} had an error receiving the information"
-    # pass
+    pass
 
 
 def main():
@@ -101,11 +104,6 @@ def main():
     log.start_timer()
 
     # TODO Create process pools
-    pool_prime = mp.Pool(5)
-    pool_word = mp.Pool(5)
-    pool_upper = mp.Pool(5)
-    pool_sum = mp.Pool(5)
-    pool_name = mp.Pool(5)
 
     # TODO you can change the following
     # TODO start and wait pools
@@ -120,32 +118,18 @@ def main():
         count += 1
         task_type = task['task']
         if task_type == TYPE_PRIME:
-            pool_prime.apply_async(task_prime, args=(task['value'], ), callback=lambda x: result_primes.append(x))
+            task_prime(task['value'])
         elif task_type == TYPE_WORD:
-            pool_word.apply_async(task_word, args=(task['word'], ), callback=lambda x: result_words.append(x))
+            task_word(task['word'])
         elif task_type == TYPE_UPPER:
-            pool_upper.apply_async(task_upper, args=(task['text'], ), callback=lambda x: result_upper.append(x))
+            task_upper(task['text'])
         elif task_type == TYPE_SUM:
-            pool_sum.apply_async(task_sum, args=(task['start'], task['end']), callback=lambda x: result_sums.append(x))
+            task_sum(task['start'], task['end'])
         elif task_type == TYPE_NAME:
-            pool_name.apply_async(task_name, args=(task['url'], ), callback=lambda x: result_names.append(x))
+            task_name(task['url'])
         else:
             log.write(f'Error: unknown task type {task_type}')
 
-    pool_prime.close()
-    pool_prime.join()
-
-    pool_word.close()
-    pool_word.join()
-
-    pool_upper.close()
-    pool_upper.join()
-
-    pool_sum.close()
-    pool_sum.join()
-
-    pool_name.close()
-    pool_name.join()
 
 
     # Do not change the following code (to the end of the main function)
